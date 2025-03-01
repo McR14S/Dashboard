@@ -1,50 +1,153 @@
-# React + TypeScript + Vite
+# Dashboard App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una aplicación de Dashboard creada con **React**, **TypeScript** y **Vite**. Implementa un hook personalizado `useFetch` para manejar peticiones a una API y gestionar estados de carga y error.
 
-Currently, two official plugins are available:
+## 📌 Tecnologías utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- TypeScript
+- Vite
+- Fetch API
 
-## Expanding the ESLint configuration
+## 🚀 Instalación
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Clona el repositorio e instala las dependencias:
 
-- Configure the top-level `parserOptions` property like this:
+```sh
+# Clonar el repositorio
+git clone https://github.com/McR14S/Dashboard.git
+cd Dashboard
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# Instalar dependencias
+npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## ▶️ Uso
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Ejecuta la aplicación en modo desarrollo:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```sh
+npm run dev
 ```
+
+La aplicación estará disponible en `http://localhost:5173/` por defecto.
+
+## 📜 Estructura del proyecto
+
+```
+├── src
+│   ├── config
+│   │   ├── constants.ts   # Archivo con la constante API_URL
+│   ├── hooks
+│   │   ├── useFetch.ts    # Hook personalizado para llamadas a la API
+│   ├── App.tsx           # Componente principal
+│   ├── main.tsx          # Punto de entrada
+├── index.html            # Archivo HTML principal
+├── vite.config.ts        # Configuración de Vite
+├── package.json          # Dependencias del proyecto
+```
+
+## 📦 Funcionalidades
+
+- Usa `useFetch` para hacer peticiones a una API definida en `API_URL`.
+- Manejo de estados de carga y error.
+- Renderiza los datos obtenidos de la API en formato JSON.
+
+## 🛠️ Código principal
+
+### `useFetch.ts`
+```tsx
+import { useEffect, useState } from "react";
+
+type Data<T> = T | null;
+type ErrorType = Error | null;
+
+interface Props<T> {
+    data: Data<T>;
+    loading: boolean;
+    error: ErrorType;
+}
+
+export const useFetch = <T>(url: string): Props<T> => {
+    const [data, setData] = useState<Data<T>>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<ErrorType>(null);
+
+    useEffect(() => {
+        let controller = new AbortController();
+        setLoading(true);
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch(url, controller);
+                if (!response.ok) {
+                    throw new Error("Error en la petición");
+                }
+                const jsonData: T = await response.json();
+                setData(jsonData);
+                setError(null);
+            } catch (err) {
+                setError(err as Error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            controller.abort();
+        };
+    }, [url]);
+
+    return { data, loading, error };
+};
+```
+
+### `App.tsx`
+```tsx
+import { API_URL } from "./config/constants";
+import { useFetch } from "./hooks";
+
+interface Data {
+  name: string;
+  lastName: string;
+  age: number;
+}
+
+function App() {
+  const { data, error, loading } = useFetch<Data>(API_URL);
+
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div>UPS! Hay un error: {error.message}</div>;
+  }
+
+  return (
+    <>
+      <h1>DASHBOARD</h1>
+      <div>{JSON.stringify(data)}</div>
+    </>
+  );
+}
+
+export default App;
+```
+
+## 🌎 Despliegue
+
+Para construir la aplicación para producción:
+
+```sh
+npm run build
+```
+
+Puedes desplegar el proyecto en **Vercel**, **Netlify** o cualquier servicio de hosting compatible con aplicaciones frontend.
+
+## 📜 Licencia
+
+Este proyecto está bajo la licencia MIT.
+
