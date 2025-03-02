@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Grid, Card, CardContent, Typography, CardMedia, Button, Pagination, Box, CircularProgress, Modal, TextField } from "@mui/material";
 import { API_URL_PRODUCTOS } from "../config/constants";
-import { useFetch } from "../hooks/index";
+import { useFetch, useProducts } from "../hooks/index";
 import SearchBar from "../components/navbar/SearchBar";
 import { Producto } from "../types/IProduct"; 
 
 const Productos = () => {
-  const { data, error, loading } = useFetch<Producto[]>(API_URL_PRODUCTOS);
+  const { data} = useFetch<Producto[]>(API_URL_PRODUCTOS);
+  const { loading, error, addProduct, updateProduct, deleteProduct } = useProducts();
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
@@ -34,17 +35,33 @@ const Productos = () => {
     normalizeText(producto.nombre).includes(normalizeText(debouncedSearch))
   );
 
+  // Metodos
   const handleViewProduct = (id: number) => {
-    console.log(`Ver detalles del producto ${id}`);
-  };
+    console.log("Ver producto", id);
+  }
 
   const handleDeleteProduct = async (id: number) => {
-    console.log(`Producto ${id} eliminado`);
+    deleteProduct(id);
   };
 
   const handleAddProduct = () => {
     setSelectedProduct(null);
     setOpenModal(true);
+  };
+
+  const handleSaveProduct = () => {
+    if (selectedProduct) {
+      updateProduct(selectedProduct.id, selectedProduct);
+    } else {
+      const newProduct: Producto = {
+        id: Math.random(), // Solo para frontend (backend debe asignar un ID real)
+        nombre: "Nuevo Producto",
+        precio: 1000,
+        imagen: "https://via.placeholder.com/200",
+      };
+      addProduct(newProduct);
+    }
+    setOpenModal(false);
   };
 
   const handleEditProduct = (producto: Producto) => {
@@ -68,7 +85,7 @@ const Productos = () => {
   }
 
   if (error) {
-    return <div>UPS! Hay un error: {error.message}</div>;
+    return <div>UPS! Hay un error: {error as string}</div>;
   }
 
   return (
@@ -100,7 +117,7 @@ const Productos = () => {
                   Precio: ${producto.precio}
                 </Typography>
               </CardContent>
-              <Box display="flex" justifyContent="space-between" sx={{ padding: 2 }}>
+                <Box display="flex" justifyContent="space-between" sx={{ padding: 2 }}>
                 <Button size="small" color="primary" fullWidth sx={{ padding: 1.5, fontWeight: "bold", textTransform: "uppercase" }} onClick={() => handleViewProduct(producto.id)}>
                   Ver Producto
                 </Button>
@@ -110,7 +127,7 @@ const Productos = () => {
                 <Button size="small" color="error" sx={{ padding: 1.5, fontWeight: "bold", textTransform: "uppercase" }} onClick={() => handleDeleteProduct(producto.id)}>
                   Eliminar
                 </Button>
-              </Box>
+                </Box>
             </Card>
           </Grid>
         ))}
@@ -130,7 +147,7 @@ const Productos = () => {
           <TextField label="Precio" fullWidth margin="normal" defaultValue={selectedProduct?.precio || ""} type="number" />
           <TextField label="Imagen URL" fullWidth margin="normal" defaultValue={selectedProduct?.imagen || ""} />
           <Box display="flex" justifyContent="space-between" sx={{ marginTop: 2 }}>
-            <Button variant="contained" color="primary" onClick={handleCloseModal}>
+            <Button variant="contained" color="primary" onClick={handleSaveProduct}>
               Guardar
             </Button>
             <Button variant="outlined" onClick={handleCloseModal}>

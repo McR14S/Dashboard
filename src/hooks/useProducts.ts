@@ -29,7 +29,7 @@ export const useProducts = () => {
     };
 
     // Crear producto
-    const crearProducto = async (producto: Producto) => {
+    const addProduct = async (producto: Producto) => {
         try {
         const response = await fetch(`API_URL_PRODUCTOS`, {
             method: "POST",
@@ -47,7 +47,7 @@ export const useProducts = () => {
     };
 
     // Actualizar producto
-    const actualizarProducto = async (id: number, nuevosDatos: Partial<Producto>) => { 
+    const updateProduct = async (id: number, nuevosDatos: Partial<Producto>) => { 
         try {
             const response = await fetch(`API_URL_PRODUCTOS/${id}`, {
                 method: "PUT",
@@ -65,7 +65,7 @@ export const useProducts = () => {
     }
 
     // Eliminar producto
-    const eliminarProducto = async (id: number) => { 
+    const deleteProduct = async (id: number) => { 
         try {
             const response = await fetch(`API_URL_PRODUCTOS/${id}`, {
                 method: "DELETE",
@@ -79,5 +79,5 @@ export const useProducts = () => {
         }
     }
 
-    return { productos, loading, error, fetchProducts, crearProducto, actualizarProducto, eliminarProducto };
+    return { productos, loading, error, fetchProducts, addProduct, updateProduct, deleteProduct };
 }
