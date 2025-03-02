@@ -20,7 +20,7 @@ export const useFetch = <T>(url: string): Props<T> => {
 
         const fetchData = async () => {
             try{
-                const response = await fetch(url, controller)
+                const response = await fetch(url, { signal: controller.signal });
                 if (!response.ok){
                     throw new Error("Error en la peticion")
                 }

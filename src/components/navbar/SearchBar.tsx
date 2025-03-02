@@ -16,7 +16,7 @@ export default function SearchBar({ onSearchChange }: SearchBarProps) {
         className="search-input"
         placeholder="Buscar..."
         inputProps={{ "aria-label": "search" }}
-        onChange={onSearchChange} // Llama a la función que pasa desde Dashboard
+        onChange={onSearchChange}
       />
     </div>
   );

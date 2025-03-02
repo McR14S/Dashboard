@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { Menu as MenuIcon, MoveToInbox as InboxIcon, Mail as MailIcon } from "@mui/icons-material";
-import SearchBar from "./SearchBar";
 import "./Navbar.css";
 
 export default function Navbar() {
