@@ -7,7 +7,6 @@ Este proyecto es una aplicación de Dashboard creada con **React**, **TypeScript
 - React
 - TypeScript
 - Vite
-- Fetch API
 
 ## 🚀 Instalación
 

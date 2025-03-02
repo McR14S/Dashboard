@@ -1,5 +1,7 @@
+import { Container } from "@mui/material"
 import { API_URL } from "./config/constants"
 import { useFetch } from "./hooks"
+import Navbar from "./components/navbar/Navbar"
 
 interface Data {
   name: string,
@@ -19,10 +21,10 @@ function App() {
   }
 
   return (
-    <>
-      <h1>DASHBOARD</h1>
-      <div>{JSON.stringify(data)}</div>
-    </>
+    <Container>
+      <Navbar />
+        <div>{JSON.stringify(data)}</div>
+    </Container>
   )
 }
 

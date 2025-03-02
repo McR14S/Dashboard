@@ -1,0 +1,64 @@
+.navbar-container {
+  display: flex;
+}
+
+.navbar {
+  width: 250px;
+  background-color: lightsalmon !important; /* Fuerza el color si MUI lo sobrescribe */
+  z-index: 1100;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 24px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente los elementos */
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 4px 10px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  padding: 4px 10px;
+  width: 100px;
+  transition: width 0.3s ease-in-out;
+}
+
+@media (min-width: 600px) {
+  .search-bar-container {
+    width: 200px;
+  }
+}
+
+@media (min-width: 900px) {
+  .search-bar-container {
+    width: 300px;
+  }
+}
+
+.drawer {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.drawer-content {
+  overflow: auto;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 16px;
+}
+
+.text-content {
+  margin-bottom: 16px;
+}
