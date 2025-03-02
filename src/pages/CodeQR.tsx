@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import QRCode from "react-qr-code";
 
 export default function QR() {
     return (
@@ -18,7 +19,7 @@ export default function QR() {
                     }
                 }}
             >
-                Hacer QR
+                <QRCode value="TEST QR" />
             </Typography>
         </div>
     );
