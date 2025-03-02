@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  AppBar,  Box,  Divider,  Drawer,  IconButton,  List,  ListItem,  ListItemButton,  ListItemIcon,  ListItemText,  Toolbar,  Typography} from "@mui/material";
+import { AppBar, Box, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { Menu as MenuIcon, MoveToInbox as InboxIcon, Mail as MailIcon } from "@mui/icons-material";
 import SearchBar from "./SearchBar";
 import "./Navbar.css";
@@ -14,20 +14,9 @@ export default function Navbar() {
   const drawerContent = (
     <Box className="drawer-content">
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+        {["Home","Dashboard", "CodeQR"].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton href={`${text.toLowerCase()}`}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -53,12 +42,33 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
 
-          <Typography variant="h6" noWrap className="title">
-            Clipped drawer
-          </Typography>
+          <Typography
+            variant="h4"
+            noWrap
+            className="title"
+            sx={{
+              paddingLeft: {
+                xs: 0,  
+                sm: "175px", 
+              },
+              paddingRight: {
+                xs: 2, 
+                sm: 3, 
+              },
+
+              display: {
+                xs: 'none',  // Oculta el componente en pantallas extra pequeñas
+                s: 'block', 
+              },
+            }}
+          >
+            Dashboard
+        </Typography>
 
           <Box className="search-bar-container">
-            <SearchBar />
+            <Typography>
+              Test
+            </Typography>
           </Box>
         </Toolbar>
       </AppBar>
@@ -82,17 +92,6 @@ export default function Navbar() {
       >
         {drawerContent}
       </Drawer>
-
-      {/* Contenido principal */}
-      <Box component="main" className="main-content">
-        <Toolbar />
-        <Typography className="text-content">
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris.
-        </Typography>
-      </Box>
     </Box>
   );
 }
