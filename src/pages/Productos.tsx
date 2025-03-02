@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Grid, Card, CardContent, Typography, CardMedia, Button, Pagination, Box, CircularProgress } from "@mui/material";
-import { API_URL } from "../config/constants";
+import { API_URL_PRODUCTOS } from "../config/constants";
 import { useFetch } from "../hooks/index";
 import SearchBar from "../components/navbar/SearchBar";
 
@@ -11,8 +11,8 @@ interface Producto {
   imagen: string;
 }
 
-const Dashboard = () => {
-  const { data, error, loading } = useFetch<Producto[]>(API_URL);
+const Productos = () => {
+  const { data, error, loading } = useFetch<Producto[]>(API_URL_PRODUCTOS);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
@@ -89,4 +89,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Productos;

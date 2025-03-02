@@ -13,7 +13,7 @@ export default function Navbar() {
   const drawerContent = (
     <Box className="drawer-content">
       <List>
-        {["Home","Dashboard", "CodeQR"].map((text, index) => (
+        {["Home","Productos", "CodeQR"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton href={`${text.toLowerCase()}`}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>

@@ -5,7 +5,7 @@ import { CssBaseline } from '@mui/material';
 import './config/global.css';
 
 import Navbar from './components/navbar/Navbar.tsx'
-import Dashboard from './pages/Dashboard.tsx'
+import Productos from './pages/Productos.tsx'
 import Home from './pages/Home.tsx'
 import CodeQR from './pages/CodeQR.tsx'
 
@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
       <Navbar />
       <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/productos" element={<Productos />} />
           <Route path="/CodeQR" element={<CodeQR />} />
         </Routes>
     </BrowserRouter>
